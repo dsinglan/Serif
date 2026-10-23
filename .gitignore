@@ -1,0 +1,33 @@
+# Claude Code's local files
+CLAUDE.md
+CLAUDE.local.md
+.claude/
+*.local.md
+
+# Downloaded price-transparency files and caches
+data/
+
+# Node / Vue
+node_modules/
+dist/
+.vite/
+coverage/
+*.log
+
+# Go (go build names the program after its folder: server)
+bin/
+/backend/server
+/backend/cmd/server/server
+*.test
+*.out
+
+# Env and OS
+.env
+.env.*
+!.env.example
+.DS_Store
+.idea/
+.vscode/
+
+# Vitest
+.vitest/

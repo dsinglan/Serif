@@ -1,0 +1,951 @@
+:root {
+  --text: #1f2328;
+  --muted: #59636e;
+  --background: #ffffff;
+  --panel: #f6f8fa;
+  --border: #d1d9e0;
+  --input-border: #818b98; /* at least 3:1 against the page, as WCAG asks of a control's edge */
+  --accent: #0969da;
+  --on-accent: #ffffff;
+  --error: #c62828;
+  --caution: #9a6700; /* a note about the data, not an error: 4.9:1 on white */
+
+  color-scheme: light dark; /* the browser's own parts (text boxes, autofill, scrollbars) follow the theme */
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--background);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text: #e6edf3;
+    --muted: #9198a1;
+    --background: #0d1117;
+    --panel: #151b23;
+    --border: #3d444d;
+    --input-border: #656c76;
+    --accent: #4493f8;
+    --on-accent: #0d1117;
+    --error: #ff8a80;
+    --caution: #d29922;
+  }
+}
+
+body {
+  margin: 0;
+}
+
+main {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 1.5rem 1rem;
+}
+
+h1 {
+  font-size: 1.5rem;
+  margin: 0 0 0.25rem;
+}
+
+/* The title links back to the first visit, and looks like a title. */
+h1 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+h1 a:hover {
+  text-decoration: underline;
+}
+
+/* What the page is for, under its title */
+.lede {
+  margin: 0 0 0.25rem;
+  color: var(--muted);
+}
+
+h2 {
+  font-size: 1.125rem;
+  margin: 0;
+  text-wrap: balance;
+}
+
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.875em;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* A code with a meaning to show on a hover, such as a modifier CMS explains */
+abbr[title] {
+  cursor: help;
+}
+
+/* A heading or the table takes the cursor after a search, so a screen
+   reader starts there. They aren't controls (Tab skips them), so they
+   don't need the ring. */
+[tabindex='-1']:focus {
+  outline: none;
+}
+
+/* Read by screen readers, but not shown. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* The status line: a quiet line under the title while all is well, and a
+   box when something is wrong. */
+.notice {
+  margin: 0 0 1.25rem;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+.notice.error {
+  margin-top: 0.75rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--error);
+  border-radius: 6px;
+  background: var(--panel);
+  color: var(--error);
+  font-size: 1rem;
+}
+
+/* The search form */
+
+form.search {
+  display: grid;
+  gap: 1rem;
+  margin: 1.5rem 0 1rem;
+}
+
+.code-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.code-row input {
+  flex: 1;
+}
+
+.field {
+  display: grid;
+  gap: 0.25rem;
+  align-content: start;
+  min-width: 0;
+}
+
+label,
+legend {
+  font-weight: 600;
+}
+
+input {
+  min-width: 0;
+  padding: 0.5rem 0.625rem;
+  border: 1px solid var(--input-border);
+  border-radius: 6px;
+  background: var(--background);
+  color: var(--text);
+  font: inherit;
+}
+
+input[aria-invalid='true'] {
+  border-color: var(--error);
+}
+
+.hint {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+.field-error,
+.field-note {
+  margin: 0;
+  font-size: 0.875rem;
+}
+
+.field-error {
+  color: var(--error);
+}
+
+fieldset.narrow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: 1rem;
+  margin: 0;
+  padding: 0.75rem 1rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font: inherit;
+  cursor: pointer;
+}
+
+button.primary {
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: var(--on-accent);
+  font-weight: 600;
+}
+
+button.secondary,
+button.example,
+button.suggestion {
+  border: 1px solid var(--input-border);
+  background: var(--background);
+  color: var(--text);
+}
+
+button:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+
+/* How a search ended */
+
+.outcome {
+  display: grid;
+  justify-items: start;
+  gap: 0.5rem;
+  min-height: 1.5rem;
+}
+
+.outcome-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.provider-note ul {
+  margin: 0.25rem 0 0;
+  padding-left: 1.25rem;
+}
+
+.outcome p {
+  margin: 0;
+}
+
+.outcome .outcome-error {
+  color: var(--error);
+}
+
+/* Codes whose names contain the words typed, to pick from */
+
+.suggestions {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  padding: 0.75rem 1rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--panel);
+}
+
+.suggestions p {
+  margin: 0;
+}
+
+.suggestion-list {
+  display: grid;
+  gap: 0.375rem;
+  margin-top: 0.5rem;
+}
+
+.suggestion-list h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+/* Narrow enough that a kind's five codes fit one row on a laptop */
+.suggestion-list ul {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(12.5rem, 1fr));
+  gap: 0.5rem;
+  margin: 0.25rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+button.suggestion {
+  display: grid;
+  gap: 0.125rem;
+  width: 100%;
+  min-height: 2.75rem; /* a big enough target for a finger */
+  padding: 0.625rem 0.75rem;
+  text-align: left;
+}
+
+.suggestion-code {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+/* Five lines hold the file's full names, which it cuts at 100 characters,
+   even on the narrowest button. CMS's names for a few HCPCS codes run
+   longer, and only their first five lines show. */
+.suggestion-name {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+  line-clamp: 5;
+  overflow: hidden;
+  font-size: 0.875rem;
+}
+
+/* A first visit: example searches */
+
+.first-visit {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.examples {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  gap: 0.5rem;
+  margin: 0.25rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+button.example {
+  display: grid;
+  gap: 0.125rem;
+  width: 100%;
+  padding: 0.625rem 0.75rem;
+  text-align: left;
+}
+
+.example-label {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.example-note {
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+/* The download's progress bar, under the status line */
+
+/* Close under the status line it belongs to: the negative top margin takes
+   back most of the line's own bottom margin. */
+progress.download {
+  display: block;
+  width: 100%;
+  margin: -0.75rem 0 1.25rem;
+  accent-color: var(--accent);
+}
+
+/* The results */
+
+.results {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  min-width: 0;
+}
+
+/* Results out of date while a newer search is on its way fade, after a
+   moment, so an answer that comes quickly doesn't make them flash. */
+.results.busy {
+  opacity: 0.5;
+  transition: opacity 0.15s 0.2s;
+}
+
+/* Their buttons do nothing then: the cursor says so, and a keyboard focus
+   ring darkens as they fade, so it stays easy to see. */
+.results.busy button {
+  cursor: progress;
+}
+
+.results.busy :focus-visible {
+  outline-color: var(--text);
+  transition: outline-color 0.15s 0.2s;
+}
+
+.code-name,
+.code-note,
+.no-fees,
+.no-summary,
+.versus-tally {
+  margin: 0;
+}
+
+.no-summary {
+  color: var(--muted);
+}
+
+.code-name {
+  color: var(--muted);
+}
+
+/* A discontinued code: a note about the data, like a row's flags. */
+.code-note {
+  color: var(--caution);
+}
+
+/* The fee switch: the kind of fee shown is pressed */
+.fee-switch {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+.fee-switch button[aria-pressed='true'] {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--on-accent);
+  font-weight: 600;
+}
+
+/* Which price the table shows first: lighter than the fee switch, which
+   chooses what the table holds. */
+.sort-switch {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.sort-switch button {
+  padding: 0.25rem 0.75rem;
+}
+
+.sort-switch button[aria-pressed='true'] {
+  border-color: var(--accent);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.pager {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* Above the table: the order on the left, and the page buttons on the
+   right, smaller, like the order's, so paging needn't wait for the end of
+   a long page. */
+.table-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+}
+
+.table-controls .pager {
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.table-controls .pager button {
+  padding: 0.25rem 0.75rem;
+}
+
+/* The summary box: every price for the code, before any filter */
+.summary {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0.25rem 0 0.75rem;
+  padding: 0.75rem 1rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--panel);
+}
+
+.summary h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.summary h4 {
+  margin: 0;
+  font-size: 0.875rem;
+}
+
+.summary-scope,
+.summary-notes {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+.stats-note {
+  margin: 0;
+  font-size: 0.875rem;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 0;
+}
+
+.stats dt {
+  color: var(--muted);
+  font-size: 0.8125rem;
+}
+
+.stats dd {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.stats dd small {
+  display: block;
+  color: var(--muted);
+  font-size: 0.8125rem;
+  font-weight: 400;
+}
+
+.breakdown {
+  display: grid;
+  gap: 0.375rem;
+}
+
+.lines {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* The label on the left, then the bar with its numbers under it. The
+   label column is the same width in every line, so every bar's scale
+   starts and ends in the same place. */
+.lines li {
+  display: grid;
+  grid-template-columns: 16rem minmax(0, 1fr);
+  gap: 0.125rem 1rem;
+  align-items: center;
+}
+
+.line-label {
+  grid-row: span 2;
+  font-size: 0.875rem;
+  overflow-wrap: anywhere;
+}
+
+/* A place line's name is a button: it shows only that place's fees in the
+   table. It reads as a link, and the place shown is bold and marked. */
+button.line-filter {
+  align-self: start;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--accent);
+  font: inherit;
+  font-size: 0.875rem;
+  text-align: left;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+button.line-filter[aria-pressed='true'] {
+  color: var(--text);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+button.line-filter[aria-pressed='true']::before {
+  content: '✓ ' / ''; /* shown, not read out: aria-pressed already says it */
+  color: var(--accent);
+}
+
+/* Above the table when it shows one place: which, and a way back. */
+.place-filter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+}
+
+.place-filter p {
+  margin: 0;
+}
+
+.line-bar {
+  position: relative;
+  height: 0.75rem;
+}
+
+/* the scale, from the lowest price to the highest */
+.line-bar::before {
+  content: '';
+  position: absolute;
+  inset: 50% 0 auto;
+  border-top: 1px solid var(--border);
+}
+
+/* The range in the muted text color, which is at least 3:1 against the
+   panel, and the middle as a dot in the accent color, ringed in the
+   panel's color so it stands apart from the range. */
+.line-range {
+  position: absolute;
+  top: 25%;
+  height: 50%;
+  min-width: 2px;
+  border-radius: 3px;
+  background: var(--muted);
+}
+
+.line-middle {
+  position: absolute;
+  top: 50%;
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 2px var(--panel);
+  transform: translate(-50%, -50%);
+}
+
+.line-numbers {
+  color: var(--muted);
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+}
+
+table.rates {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+}
+
+table.rates caption {
+  padding-bottom: 0.5rem;
+  color: var(--muted);
+  text-align: left;
+}
+
+table.rates th,
+table.rates td {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  vertical-align: top;
+}
+
+table.rates th {
+  background: var(--panel);
+  font-weight: 600;
+}
+
+/* A procedure's name can hold one very long word, such as
+   ESOPHAGOGASTRODUODENOSCOPY: let it break, so the table fits a
+   tablet's width instead of the page scrolling sideways. */
+table.rates td.procedure .cell-value {
+  overflow-wrap: anywhere;
+}
+
+/* The price is the answer, so it's the boldest thing in its row. */
+table.rates .price {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Under a price: how it compares with the middle price at its place. It
+   wraps, unlike the price above it, so a narrow screen never scrolls
+   sideways; on a laptop or wider it stays on one line, so rows stay short. */
+.versus {
+  display: block;
+  color: var(--muted);
+  font-size: 0.8125rem;
+  font-weight: 400;
+  white-space: normal;
+}
+
+@media (min-width: 64rem) {
+  table.rates .versus {
+    white-space: nowrap;
+  }
+}
+
+/* "269 NPIs" or "Whole practice" reads as one thing. */
+table.rates .covers {
+  white-space: nowrap;
+}
+
+.org {
+  display: block;
+  font-weight: 600;
+}
+
+.detail {
+  display: block;
+  color: var(--muted);
+  font-size: 0.8125rem;
+}
+
+/* A note about the data, such as a placeholder provider: a caution, not an error. */
+.flag {
+  display: inline-block;
+  margin: 0.25rem 0.25rem 0 0;
+  padding: 0 0.375rem;
+  border: 1px solid var(--caution);
+  border-radius: 4px;
+  color: var(--caution);
+  font-size: 0.75rem;
+}
+
+.places {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.place {
+  padding: 0 0.375rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 0.8125rem;
+}
+
+.cell-label {
+  display: none; /* shown on phones, where each row is a card */
+}
+
+/* A row's details: where it came from in the file */
+.details-button {
+  padding: 0.25rem 0.625rem;
+  font-size: 0.875rem;
+}
+
+.row-details {
+  display: grid;
+  gap: 0.5rem;
+  padding: 0.25rem 0 0.5rem;
+  contain: inline-size; /* the long commands don't widen the table's columns when a row opens */
+}
+
+.row-details h3 {
+  margin: 0;
+  font-size: 0.875rem;
+}
+
+.row-details dl {
+  display: grid;
+  gap: 0.375rem;
+  margin: 0;
+}
+
+.row-details dl > div {
+  display: grid;
+  grid-template-columns: 8rem minmax(0, 1fr);
+  gap: 0.75rem;
+}
+
+.row-details dt {
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+.row-details dd {
+  display: grid;
+  gap: 0.25rem;
+  margin: 0;
+  min-width: 0;
+}
+
+.row-details code {
+  overflow-wrap: anywhere;
+}
+
+.command {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--background);
+}
+
+.command code {
+  flex: 1 1 20rem;
+  min-width: 0;
+}
+
+.command button {
+  padding: 0.125rem 0.625rem;
+  font-size: 0.8125rem;
+}
+
+.npis {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.75rem;
+  margin: 0.375rem 0 0;
+  padding: 0;
+  list-style: none;
+  font-variant-numeric: tabular-nums;
+}
+
+.row-details .hint {
+  font-size: 0.8125rem;
+}
+
+table.rates tr.details-row td {
+  background: var(--panel);
+}
+
+.legend-heading {
+  margin: 0.75rem 0 0;
+  font-size: 1rem;
+}
+
+.legend {
+  display: grid;
+  gap: 0.25rem;
+  margin: 0;
+}
+
+.legend div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.legend dt {
+  font-weight: 600;
+}
+
+.legend dd {
+  margin: 0;
+}
+
+/* The link to the page's API call: quiet, last, and free to break anywhere,
+   since the address has no spaces. */
+.api-link {
+  margin: 0.75rem 0 0;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+.api-link a {
+  color: var(--accent);
+  overflow-wrap: anywhere;
+}
+
+/* Phones: each row becomes a card, with a label beside each value. The
+   column headers stay for screen readers, hidden from view. */
+@media (max-width: 44rem) {
+  /* The two fee buttons don't fit side by side at their full width: keep
+     them side by side, the same width, with the longer label wrapping. */
+  .fee-switch {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* The numbers two by two, and each line's bar under its label. */
+  .stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .lines li {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.25rem;
+  }
+
+  .line-label {
+    grid-row: auto;
+  }
+
+  /* A place's name, the order buttons and the page buttons beside them: big enough for a finger. */
+  button.line-filter,
+  .sort-switch button,
+  .table-controls .pager button {
+    min-height: 2.75rem;
+  }
+
+  table.rates thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  table.rates,
+  table.rates caption,
+  table.rates tbody,
+  table.rates tr,
+  table.rates td {
+    display: block;
+  }
+
+  table.rates tr {
+    margin-bottom: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+
+  table.rates td {
+    display: grid;
+    grid-template-columns: 6.5rem minmax(0, 1fr);
+    gap: 0.5rem;
+    padding: 0.25rem 0;
+    border: 0;
+  }
+
+  table.rates td.price {
+    text-align: left;
+    font-weight: 600;
+  }
+
+  /* A row's details sit in their own card under the row's card, without
+     the label column the other cells have. */
+  table.rates tr.details-row td {
+    display: block;
+  }
+
+  .row-details dl > div {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.125rem;
+  }
+
+  /* A long word, such as ESOPHAGOGASTRODUODENOSCOPY, breaks instead of
+     pushing the card past the screen's edge. */
+  table.rates .cell-value {
+    overflow-wrap: anywhere;
+  }
+
+  .cell-label {
+    display: block;
+    color: var(--muted);
+    font-size: 0.8125rem;
+    font-weight: 400;
+  }
+}
